@@ -1,0 +1,37 @@
+diff --git a/port/port_win.cc b/port/port_win.cc
+index 7c31792..79aad4f 100644
+--- a/port/port_win.cc
++++ b/port/port_win.cc
+@@ -38,7 +38,11 @@
+ #ifdef SNAPPY
+ 	#include <snappy/snappy.h>
+ #elif defined(ZLIB)
+-	#include <zlib/zlib.h>
++    #ifdef LEVELDB_MINGW
++        #include <zlib.h>
++    #else
++	    #include <zlib/zlib.h>
++	#endif
+ #endif
+ 
+ namespace leveldb {
+diff --git a/port/port_win.h b/port/port_win.h
+index a920955..d165326 100644
+--- a/port/port_win.h
++++ b/port/port_win.h
+@@ -31,8 +31,13 @@
+ #ifndef STORAGE_LEVELDB_PORT_PORT_WIN_H_
+ #define STORAGE_LEVELDB_PORT_PORT_WIN_H_
+ 
+-#define close _close
+-#define fread_unlocked _fread_nolock
++#ifdef LEVELDB_MINGW
++    // mingw will not link with _fread_nolock for some reason
++    #define fread_unlocked fread
++#else
++    #define close _close
++    #define fread_unlocked _fread_nolock
++#endif
+ 
+ #include <string>
+ #include <mutex>

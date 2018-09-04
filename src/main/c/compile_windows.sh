@@ -8,27 +8,22 @@ CXX="g++"
 CXX="$CXX -std=c++11"
 
 # Some shared library switches
-CXX="$CXX -s -shared -fPIC"
+CXX="$CXX -s -shared -static -fPIC -static-libgcc -static-libstdc++"
 
 # This build should use the libc memcmp instead of the builtin one
 CXX="$CXX -fno-builtin-memcmp"
 
 # Since we use a "emulated" windows build chain we need to define that we are windows 7
-CXX="$CXX -D_WIN32_WINNT=0x0601"
+CXX="$CXX -D_WIN32_WINNT=0x0600 -D_WIN32_WINDOWS=0x0600"
 
 # Now some leveldb config (telling we are windows)
-CXX="$CXX -DOS_WIN -DWIN32 -DNDEBUG -DDLLX="
+CXX="$CXX -DOS_WIN -DOS_WINDOWS -DWIN32 -DNDEBUG -DLEVELDB_ATOMIC_PRESENT -DDLLX= -pthread -DLEVELDB_MINGW"
 
 # Some general improvements (seems buggy)
-# CXX="$CXX -O2"
+CXX="$CXX -O2"
 
 # Includes
 CXX="$CXX -I$JAVA_HOME/include/ -I$JAVA_HOME/include/win32/ -I$CWD/leveldb-mcpe/ -I$CWD/leveldb-mcpe/include/"
-
-# We need the zlib.h in a seperate folder (because mojang added it to the wrong folder zlib/zlib.h where the normal import is simply zlib.h)
-mkdir -p "$CWD/include/zlib/"
-cp /usr/include/zlib.h "$CWD/include/zlib/zlib.h"
-CXX="$CXX -I$CWD/include/"
 
 # Verify that the built cmd is correct
 echo $CXX
