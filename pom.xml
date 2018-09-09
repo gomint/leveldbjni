@@ -42,6 +42,11 @@
             <artifactId>oshi-core</artifactId>
             <version>3.5.0</version>
         </dependency>
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-buffer</artifactId>
+            <version>4.1.24.Final</version>
+        </dependency>
     </dependencies>
 
     <build>

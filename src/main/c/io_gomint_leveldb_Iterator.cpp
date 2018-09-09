@@ -6,26 +6,26 @@
 
 static void nativeDestroy(JNIEnv* env, jclass clazz, jlong ptr)
 {
-    leveldb::Iterator* iter = reinterpret_cast<leveldb::Iterator*>(ptr);
+    leveldb::Iterator* iter = (leveldb::Iterator*)ptr;
 
     delete iter;
 }
 
 static void nativeSeekToFirst(JNIEnv* env, jclass clazz, jlong iterPtr)
 {
-    leveldb::Iterator* iter = reinterpret_cast<leveldb::Iterator*>(iterPtr);
+    leveldb::Iterator* iter = (leveldb::Iterator*)iterPtr;
     iter->SeekToFirst();
 }
 
 static void nativeSeekToLast(JNIEnv* env, jclass clazz, jlong iterPtr)
 {
-    leveldb::Iterator* iter = reinterpret_cast<leveldb::Iterator*>(iterPtr);
+    leveldb::Iterator* iter = (leveldb::Iterator*)iterPtr;
     iter->SeekToLast();
 }
 
 static void nativeSeek(JNIEnv* env, jclass clazz, jlong iterPtr, jbyteArray keyObj)
 {
-    leveldb::Iterator* iter = reinterpret_cast<leveldb::Iterator*>(iterPtr);
+    leveldb::Iterator* iter = (leveldb::Iterator*)iterPtr;
 
     size_t keyLen = env->GetArrayLength(keyObj);
     jbyte *buffer = env->GetByteArrayElements(keyObj, NULL);
@@ -36,25 +36,25 @@ static void nativeSeek(JNIEnv* env, jclass clazz, jlong iterPtr, jbyteArray keyO
 
 static jboolean nativeValid(JNIEnv* env, jclass clazz, jlong iterPtr)
 {
-    leveldb::Iterator* iter = reinterpret_cast<leveldb::Iterator*>(iterPtr);
+    leveldb::Iterator* iter = (leveldb::Iterator*)iterPtr;
     return iter->Valid();
 }
 
 static void nativeNext(JNIEnv* env, jclass clazz, jlong iterPtr)
 {
-    leveldb::Iterator* iter = reinterpret_cast<leveldb::Iterator*>(iterPtr);
+    leveldb::Iterator* iter = (leveldb::Iterator*)iterPtr;
     iter->Next();
 }
 
 static void nativePrev(JNIEnv* env, jclass clazz, jlong iterPtr)
 {
-    leveldb::Iterator* iter = reinterpret_cast<leveldb::Iterator*>(iterPtr);
+    leveldb::Iterator* iter = (leveldb::Iterator*)iterPtr;
     iter->Prev();
 }
 
 static jbyteArray nativeKey(JNIEnv* env, jclass clazz, jlong iterPtr)
 {
-    leveldb::Iterator* iter = reinterpret_cast<leveldb::Iterator*>(iterPtr);
+    leveldb::Iterator* iter = (leveldb::Iterator*)iterPtr;
     leveldb::Slice key = iter->key();
 
     size_t len = key.size();
@@ -65,7 +65,7 @@ static jbyteArray nativeKey(JNIEnv* env, jclass clazz, jlong iterPtr)
 
 static jbyteArray nativeValue(JNIEnv* env, jclass clazz, jlong iterPtr)
 {
-    leveldb::Iterator* iter = reinterpret_cast<leveldb::Iterator*>(iterPtr);
+    leveldb::Iterator* iter = (leveldb::Iterator*)iterPtr;
     leveldb::Slice value = iter->value();
 
     size_t len = value.size();
