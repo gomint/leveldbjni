@@ -52,8 +52,7 @@ static JNINativeMethod sMethods[] =
         { "nativeClear", "(J)V", (void*) nativeClear }
 };
 
-int
-register_rbq2012_leveldb_WriteBatch(JNIEnv *env) {
+int register_io_gomint_leveldb_WriteBatch(JNIEnv *env) {
     jclass clazz = env->FindClass("io/gomint/leveldb/WriteBatch");
 
     if (!clazz)

@@ -65,8 +65,8 @@ static void nativeClose(JNIEnv* env, jclass clazz, jlong dbPtr)
 
 static jbyteArray nativeGet(JNIEnv * env, jclass clazz, jlong dbPtr, jlong snapshotPtr, jlong keyAddress, jint keyLength)
 {
-    leveldb::DB* db = (leveldb::DB) dbPtr;
-    readOptions.snapshot = (leveldb::Snapshot) snapshotPtr;
+    leveldb::DB* db = (leveldb::DB*) dbPtr;
+    readOptions.snapshot = (leveldb::Snapshot*) snapshotPtr;
 
     jbyteArray result;
 
@@ -85,15 +85,13 @@ static jbyteArray nativeGet(JNIEnv * env, jclass clazz, jlong dbPtr, jlong snaps
         result = NULL;
     }
 
-    env->ReleaseByteArrayElements(keyObj, buffer, JNI_ABORT);
-
     delete iter;
     return result;
 }
 
 static void nativePut(JNIEnv *env, jclass clazz, jlong dbPtr, jlong keyAddress, jint keyLength, jlong valueAddress, jint valueLength)
 {
-    leveldb::DB* db = (leveldb::DB)(dbPtr);
+    leveldb::DB* db = (leveldb::DB*)(dbPtr);
 
     leveldb::Status status = db->Put(leveldb::WriteOptions(),
     leveldb::Slice((const char *) keyAddress, keyLength),
@@ -107,7 +105,7 @@ static void nativePut(JNIEnv *env, jclass clazz, jlong dbPtr, jlong keyAddress, 
 
 static void nativeDelete(JNIEnv *env, jclass clazz, jlong dbPtr, jlong keyAddress, jint keyLength)
 {
-    leveldb::DB* db = (leveldb::DB)(dbPtr);
+    leveldb::DB* db = (leveldb::DB*)(dbPtr);
     leveldb::Status status = db->Delete(leveldb::WriteOptions(), leveldb::Slice((const char *) keyAddress, keyLength));
 
     if (!status.ok())
@@ -118,7 +116,7 @@ static void nativeDelete(JNIEnv *env, jclass clazz, jlong dbPtr, jlong keyAddres
 
 static void nativeWrite(JNIEnv *env, jclass clazz, jlong dbPtr, jlong batchPtr)
 {
-    leveldb::DB* db = (leveldb::DB)(dbPtr);
+    leveldb::DB* db = (leveldb::DB*)(dbPtr);
 
     leveldb::WriteBatch *batch = (leveldb::WriteBatch *) batchPtr;
     leveldb::Status status = db->Write(leveldb::WriteOptions(), batch);
@@ -131,25 +129,25 @@ static void nativeWrite(JNIEnv *env, jclass clazz, jlong dbPtr, jlong batchPtr)
 
 static jlong nativeIterator(JNIEnv* env, jclass clazz, jlong dbPtr, jlong snapshotPtr)
 {
-    leveldb::DB* db = (leveldb::DB)(dbPtr);
+    leveldb::DB* db = (leveldb::DB*)(dbPtr);
     leveldb::ReadOptions options = leveldb::ReadOptions();
-    options.snapshot = (leveldb::Snapshot)(snapshotPtr);
+    options.snapshot = (leveldb::Snapshot*)(snapshotPtr);
 
     leveldb::Iterator *iter = db->NewIterator(options);
-    return (jlong>(iter);
+    return (jlong) iter;
 }
 
 static jlong nativeGetSnapshot(JNIEnv *env, jclass clazz, jlong dbPtr)
 {
-    leveldb::DB* db = (leveldb::DB)(dbPtr);
+    leveldb::DB* db = (leveldb::DB*)(dbPtr);
     const leveldb::Snapshot* snapshot = db->GetSnapshot();
-    return (jlong>(snapshot);
+    return (jlong) snapshot;
 }
 
 static void nativeReleaseSnapshot(JNIEnv *env, jclass clazz, jlong dbPtr, jlong snapshotPtr)
 {
-    leveldb::DB* db = (leveldb::DB)(dbPtr);
-    const leveldb::Snapshot *snapshot = (leveldb::Snapshot)(snapshotPtr);
+    leveldb::DB* db = (leveldb::DB*)(dbPtr);
+    const leveldb::Snapshot *snapshot = (leveldb::Snapshot*)(snapshotPtr);
     db->ReleaseSnapshot(snapshot);
 }
 

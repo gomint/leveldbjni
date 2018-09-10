@@ -3,7 +3,6 @@ package io.gomint.leveldb;
 import io.netty.buffer.ByteBuf;
 
 import java.io.File;
-import java.nio.ByteBuffer;
 
 public class DB extends NativeObject {
 
@@ -22,6 +21,7 @@ public class DB extends NativeObject {
         if ( path == null ) {
             throw new NullPointerException();
         }
+
         mPath = path;
     }
 
