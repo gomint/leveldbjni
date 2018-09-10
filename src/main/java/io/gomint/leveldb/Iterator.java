@@ -1,6 +1,9 @@
 package io.gomint.leveldb;
 
+import io.netty.buffer.ByteBuf;
+
 public class Iterator extends NativeObject {
+
     Iterator( long iterPtr ) {
         super( iterPtr );
     }
@@ -20,12 +23,16 @@ public class Iterator extends NativeObject {
         nativeSeekToLast( mPtr );
     }
 
-    public void seek( byte[] target ) {
+    public void seek( ByteBuf key ) {
         assertOpen( "Iterator is closed" );
-        if ( target == null ) {
+        if ( key == null ) {
             throw new IllegalArgumentException();
         }
-        nativeSeek( mPtr, target );
+
+        key.memoryAddress();
+
+        nativeSeek( mPtr, key.memoryAddress() + key.readerIndex(), key.readableBytes() );
+        key.readerIndex( key.readerIndex() + key.readableBytes() );
     }
 
     public boolean isValid() {
@@ -59,7 +66,7 @@ public class Iterator extends NativeObject {
 
     private static native void nativeSeekToLast( long ptr );
 
-    private static native void nativeSeek( long ptr, byte[] key );
+    private static native void nativeSeek( long ptr, long keyAddress, int keyLength );
 
     private static native boolean nativeValid( long ptr );
 

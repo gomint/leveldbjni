@@ -23,15 +23,10 @@ static void nativeSeekToLast(JNIEnv* env, jclass clazz, jlong iterPtr)
     iter->SeekToLast();
 }
 
-static void nativeSeek(JNIEnv* env, jclass clazz, jlong iterPtr, jbyteArray keyObj)
+static void nativeSeek(JNIEnv* env, jclass clazz, jlong iterPtr, jlong keyAddress, jint keyLength)
 {
     leveldb::Iterator* iter = (leveldb::Iterator*)iterPtr;
-
-    size_t keyLen = env->GetArrayLength(keyObj);
-    jbyte *buffer = env->GetByteArrayElements(keyObj, NULL);
-
-    iter->Seek(leveldb::Slice((const char *)buffer, keyLen));
-    env->ReleaseByteArrayElements(keyObj, buffer, JNI_ABORT);
+    iter->Seek(leveldb::Slice((const char *)keyAddress, keyLength));
 }
 
 static jboolean nativeValid(JNIEnv* env, jclass clazz, jlong iterPtr)
@@ -79,7 +74,7 @@ static JNINativeMethod sMethods[] =
         { "nativeDestroy", "(J)V", (void*) nativeDestroy },
         { "nativeSeekToFirst", "(J)V", (void*) nativeSeekToFirst },
         { "nativeSeekToLast", "(J)V", (void*) nativeSeekToLast },
-        { "nativeSeek", "(J[B)V", (void*) nativeSeek },
+        { "nativeSeek", "(JJI)V", (void*) nativeSeek },
         { "nativeValid", "(J)Z", (void*) nativeValid },
         { "nativeNext", "(J)V", (void*) nativeNext },
         { "nativePrev", "(J)V", (void*) nativePrev },

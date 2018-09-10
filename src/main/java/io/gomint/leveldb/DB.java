@@ -1,5 +1,7 @@
 package io.gomint.leveldb;
 
+import io.netty.buffer.ByteBuf;
+
 import java.io.File;
 import java.nio.ByteBuffer;
 
@@ -36,51 +38,54 @@ public class DB extends NativeObject {
         }
     }
 
-    public void put( byte[] key, byte[] value ) {
+    public void put( ByteBuf key, ByteBuf value ) {
         assertOpen( "Database is closed" );
         if ( key == null ) {
             throw new NullPointerException( "key" );
         }
+
         if ( value == null ) {
             throw new NullPointerException( "value" );
         }
 
-        nativePut( mPtr, key, value );
+        key.memoryAddress();
+        value.memoryAddress();
+
+        nativePut( mPtr, key.memoryAddress() + key.readerIndex(), key.readableBytes(),
+                value.memoryAddress() + value.readerIndex(), value.readableBytes() );
+
+        // Modify input bytebufs
+        key.readerIndex( key.readerIndex() + key.readableBytes() );
+        value.readerIndex( value.readerIndex() + value.readableBytes() );
     }
 
-    public byte[] get( byte[] key ) {
+    public byte[] get( ByteBuf key ) {
         return get( null, key );
     }
 
-    public byte[] get( Snapshot snapshot, byte[] key ) {
+    public byte[] get( Snapshot snapshot, ByteBuf key ) {
         assertOpen( "Database is closed" );
         if ( key == null ) {
             throw new NullPointerException();
         }
 
-        return nativeGet( mPtr, snapshot != null ? snapshot.getPtr() : 0, key );
+        key.memoryAddress();
+
+        byte[] val = nativeGet( mPtr, snapshot != null ? snapshot.getPtr() : 0, key.memoryAddress() + key.readerIndex(), key.readableBytes() );
+        key.readerIndex( key.readerIndex() + key.readableBytes() );
+        return val;
     }
 
-    public byte[] get( ByteBuffer key ) {
-        return get( null, key );
-    }
-
-    public byte[] get( Snapshot snapshot, ByteBuffer key ) {
+    public void delete( ByteBuf key ) {
         assertOpen( "Database is closed" );
         if ( key == null ) {
             throw new NullPointerException();
         }
 
-        return nativeGet( mPtr, snapshot != null ? snapshot.getPtr() : 0, key );
-    }
+        key.memoryAddress();
 
-    public void delete( byte[] key ) {
-        assertOpen( "Database is closed" );
-        if ( key == null ) {
-            throw new NullPointerException();
-        }
-
-        nativeDelete( mPtr, key );
+        nativeDelete( mPtr, key.memoryAddress() + key.readerIndex(), key.readableBytes() );
+        key.readerIndex( key.readerIndex() + key.readableBytes() );
     }
 
     public void write( WriteBatch batch ) {
@@ -144,13 +149,11 @@ public class DB extends NativeObject {
 
     private static native void nativeClose( long dbPtr );
 
-    private static native void nativePut( long dbPtr, byte[] key, byte[] value );
+    private static native void nativePut( long dbPtr, long keyAddress, int keyLength, long valueAddress, int valueLength );
 
-    private static native byte[] nativeGet( long dbPtr, long snapshotPtr, byte[] key );
+    private static native byte[] nativeGet( long dbPtr, long snapshotPtr, long keyAddress, int keyLength );
 
-    private static native byte[] nativeGet( long dbPtr, long snapshotPtr, ByteBuffer key );
-
-    private static native void nativeDelete( long dbPtr, byte[] key );
+    private static native void nativeDelete( long dbPtr, long keyAddress, int keyLength );
 
     private static native void nativeWrite( long dbPtr, long batchPtr );
 
@@ -162,9 +165,4 @@ public class DB extends NativeObject {
 
     private static native void nativeReleaseSnapshot( long dbPtr, long snapshotPtr );
 
-    public static native String stringFromJNI();
-
-    {
-        System.loadLibrary( "leveldbjni" );
-    }
 }

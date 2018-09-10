@@ -25,6 +25,7 @@ public class WriteBatch extends NativeObject {
 
         // Get memory address and pos
         nativeDelete( mPtr, key.memoryAddress() + key.readerIndex(), key.readableBytes() );
+        key.readerIndex( key.readerIndex() + key.readableBytes() );
     }
 
     public void put( ByteBuf key, ByteBuf value ) {
@@ -43,6 +44,8 @@ public class WriteBatch extends NativeObject {
         assertOpen( "WriteBatch is closed" );
 
         nativePut( mPtr, key.memoryAddress() + key.readerIndex(), key.readableBytes(), value.memoryAddress() + value.readerIndex(), value.readableBytes() );
+        key.readerIndex( key.readerIndex() + key.readableBytes() );
+        value.readerIndex( value.readerIndex() + value.readableBytes() );
     }
 
     public void clear() {
