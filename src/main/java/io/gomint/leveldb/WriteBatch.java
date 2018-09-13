@@ -48,6 +48,11 @@ public class WriteBatch extends NativeObject {
         value.readerIndex( value.readerIndex() + value.readableBytes() );
     }
 
+    public long size() {
+        assertOpen( "WriteBatch is closed" );
+        return nativeSize( mPtr );
+    }
+
     public void clear() {
         assertOpen( "WriteBatch is closed" );
         nativeClear( mPtr );
@@ -62,4 +67,7 @@ public class WriteBatch extends NativeObject {
     private static native void nativePut( long ptr, long key, int keyLength, long value, int valueLength );
 
     private static native void nativeClear( long ptr );
+
+    private static native long nativeSize( long ptr );
+
 }
