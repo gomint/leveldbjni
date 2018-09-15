@@ -16,15 +16,15 @@ REM Delete old builds
 echo Setting up leveldb-mcpe
 
 REM Remove leveldb-mcpe
-@rmdir leveldb-mcpe /s /q > compile.log 2>&1
+REM @rmdir leveldb-mcpe /s /q > compile.log 2>&1
 
 REM Get all submodules
-git submodule update --init > compile.log 2>&1
+REM git submodule update --init > compile.log 2>&1
 
 REM We apply the mingw fixes first
-cd leveldb-mcpe 
-git apply ../mingw.patch > ../compile.log 2>&1
-cd ..
+REM cd leveldb-mcpe 
+REM git apply ../mingw.patch > ../compile.log 2>&1
+REM cd ..
 
 echo Compiling linux version (ubuntu 18.04)
 
