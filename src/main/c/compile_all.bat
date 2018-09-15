@@ -47,6 +47,8 @@ REM since mingw64 is run async (not in this process) we need to check if the com
 
 echo Finished windows build
 
+ping 127.0.0.1 -n 2 > nul
+
 REM upx (pack the build)
 echo Packing binaries
 

@@ -34,7 +34,7 @@ static void nativePut(JNIEnv* env, jclass clazz, jlong ptr, jlong keyMemory, jin
     const char *keyBytes = (const char *) keyMemory;
     const char *valBytes = (const char *) valMemory;
 
-    batch->Put(leveldb::Slice(keyBytes, keyLength), leveldb::Slice(keyBytes, valLength));
+    batch->Put(leveldb::Slice(keyBytes, keyLength), leveldb::Slice(valBytes, valLength));
 }
 
 static void nativeClear(JNIEnv* env, jclass clazz, jlong ptr)
@@ -43,13 +43,20 @@ static void nativeClear(JNIEnv* env, jclass clazz, jlong ptr)
     batch->Clear();
 }
 
+static jlong nativeSize(JNIEnv* env, jclass clazz, jlong ptr)
+{
+    leveldb::WriteBatch* batch = (leveldb::WriteBatch*) ptr;
+    return (jlong) batch->ApproximateSize();
+}
+
 static JNINativeMethod sMethods[] =
 {
         { "nativeCreate", "()J", (void*) nativeCreate },
         { "nativeDestroy", "(J)V", (void*) nativeDestroy },
         { "nativeDelete", "(JJI)V", (void*) nativeDelete },
         { "nativePut", "(JJIJI)V", (void*) nativePut },
-        { "nativeClear", "(J)V", (void*) nativeClear }
+        { "nativeClear", "(J)V", (void*) nativeClear },
+        { "nativeSize", "(J)J", (void*) nativeSize }
 };
 
 int register_io_gomint_leveldb_WriteBatch(JNIEnv *env) {
