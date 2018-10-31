@@ -20,7 +20,7 @@ CXX="$CXX -D_WIN32_WINNT=0x0600 -D_WIN32_WINDOWS=0x0600"
 CXX="$CXX -DOS_WIN -DOS_WINDOWS -DWIN32 -DNDEBUG -DLEVELDB_ATOMIC_PRESENT -DDLLX= -pthread -DLEVELDB_MINGW"
 
 # Some general improvements (seems buggy)
-CXX="$CXX -O2"
+# CXX="$CXX"
 
 # Includes
 CXX="$CXX -I$JAVA_HOME/include/ -I$JAVA_HOME/include/win32/ -I$CWD/leveldb-mcpe/ -I$CWD/leveldb-mcpe/include/"

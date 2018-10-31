@@ -37,12 +37,6 @@ static void nativePut(JNIEnv* env, jclass clazz, jlong ptr, jlong keyMemory, jin
     batch->Put(leveldb::Slice(keyBytes, keyLength), leveldb::Slice(valBytes, valLength));
 }
 
-static jlong nativeSize(JNIEnv* env, jclass clazz, jlong ptr)
-{
-    leveldb::WriteBatch* batch = (leveldb::WriteBatch*) ptr;
-    return (jlong) batch->ApproximateSize();
-}
-
 static void nativeClear(JNIEnv* env, jclass clazz, jlong ptr)
 {
     leveldb::WriteBatch* batch = (leveldb::WriteBatch*) ptr;
