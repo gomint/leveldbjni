@@ -22,7 +22,9 @@ REM Get all submodules
 git submodule update --init > compile.log 2>&1
 
 REM We apply the mingw fixes first
-cd leveldb-mcpe 
+cd leveldb-mcpe
+git checkout master
+git pull
 git apply ../mingw.patch > ../compile.log 2>&1
 cd ..
 
