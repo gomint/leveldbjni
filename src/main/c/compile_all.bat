@@ -25,7 +25,14 @@ REM We apply the mingw fixes first
 cd leveldb-mcpe
 git checkout master
 git pull
-git apply ../mingw.patch > ../compile.log 2>&1
+cd ..
+
+REM Copy over needed stuff
+xcopy /s copy\* leveldb-mcpe\
+
+REM Patch fixes
+cd leveldb-mcpe
+git apply ../fixes.patch > compile.log 2>&1
 cd ..
 
 echo Compiling linux version (ubuntu 18.04)
@@ -37,24 +44,4 @@ echo Finished linux build
 echo Compiling windows version (windows 7)
 
 REM Build windows version now
-C:\msys64\mingw64.exe ./compile_windows.sh
-
-REM since mingw64 is run async (not in this process) we need to check if the compiled dll is there
-:still_more_files
-    if not exist ..\resources\leveldb-mcpe.dll (
-        echo Still waiting for windows compile to finish
-		ping 127.0.0.1 -n 2 > nul
-        goto :still_more_files
-    )
-
-echo Finished windows build
-
-ping 127.0.0.1 -n 2 > nul
-
-REM upx (pack the build)
-echo Packing binaries
-
-upx.exe --best ../resources/leveldb-mcpe.dll
-upx.exe --best ../resources/leveldb-mcpe.so
-
-echo Done
+compile_windows.bat

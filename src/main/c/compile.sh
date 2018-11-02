@@ -35,4 +35,4 @@ $CXX leveldb-mcpe/db/builder.cc      leveldb-mcpe/db/c.cc\
      \
      leveldb-mcpe/port/port_posix.cc leveldb-mcpe/port/port_posix_sse.cc\
 	 \
-	 io_gomint_leveldb_DB.cpp io_gomint_leveldb_Iterator.cpp io_gomint_leveldb_WriteBatch.cpp leveldbjni.cpp -o ../resources/leveldb-mcpe.so -lz
+	 leveldb-mcpe/io_gomint_leveldb_DB.cpp leveldb-mcpe/io_gomint_leveldb_Iterator.cpp leveldb-mcpe/io_gomint_leveldb_WriteBatch.cpp leveldb-mcpe/leveldbjni.cpp -o ../resources/leveldb-mcpe.so -lz
