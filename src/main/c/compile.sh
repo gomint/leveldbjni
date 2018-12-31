@@ -1,5 +1,5 @@
-#!/bin/sh
-JAVA_HOME=/usr/lib/jvm/java-8-oracle
+#!/bin/bash
+JAVA_HOME=/usr/lib/jvm/java-11-oracle
 
 CWD=$(pwd)
 CXX="g++ -std=c++11 -s -shared -fPIC -fno-builtin-memcmp -DOS_LINUX -DLEVELDB_PLATFORM_POSIX -DLEVELDB_ATOMIC_PRESENT -DNDEBUG -O2 -DDLLX= -pthread -I$JAVA_HOME/include/ -I$JAVA_HOME/include/linux/ -I$CWD/leveldb-mcpe/ -I$CWD/leveldb-mcpe/include/"
