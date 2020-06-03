@@ -10,7 +10,12 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="leveldb" target="1.8" />
+      <module name="leveldb" target="11" />
     </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="leveldb" options="-sourcepath $PROJECT_DIR$/src/main/java:$PROJECT_DIR$/target/generated-sources/annotations:/" />
+    </option>
   </component>
 </project>
