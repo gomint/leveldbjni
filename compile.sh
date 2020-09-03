@@ -22,7 +22,7 @@ get_zip https://github.com/pmmp/leveldb/archive/$LEVELDB_MCPE_VER.zip
 mv leveldb-$LEVELDB_MCPE_VER leveldb
 
 cd leveldb
-../../bin/cmake -G "Unix Makefiles" \
+cmake -G "Unix Makefiles" \
  -DCMAKE_PREFIX_PATH="$DEPS_DIR" \
  -DCMAKE_INSTALL_PREFIX="$DEPS_DIR" \
  -DBUILD_SHARED_LIBS=OFF \
@@ -33,6 +33,6 @@ make
 cd ../../
 
 cd src/main/c/
-../../../bin/cmake -G "Unix Makefiles" || exit 1
+cmake -G "Unix Makefiles" || exit 1
 make
 
