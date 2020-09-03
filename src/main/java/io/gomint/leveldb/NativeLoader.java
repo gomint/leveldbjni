@@ -31,7 +31,8 @@ public class NativeLoader {
             return false;
         }
 
-        String fullName = "leveldb-mcpe";
+        String prefix = SystemInfo.getCurrentPlatformEnum() == PlatformEnum.WINDOWS ? "" : "lib";
+        String fullName = prefix + "leveldb-mcpe";
 
         // Load needed libs
         String ending = SystemInfo.getCurrentPlatformEnum() == PlatformEnum.WINDOWS ? ".dll" : ".so";

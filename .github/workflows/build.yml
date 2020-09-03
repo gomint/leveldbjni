@@ -3,6 +3,34 @@ on: [push]
 name: CI
 
 jobs:
+  maven:
+    needs:
+      - windows_x64
+      - linux_x64
+    name: Maven
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/download-artifact@master
+        with:
+          name: leveldb-mcpe.dll
+          path: src/main/resources
+      - uses: actions/download-artifact@master
+        with:
+          name: libleveldb-mcpe.so
+          path: src/main/resources
+      - name: Set up Maven Central Repository
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+          server-id: ossrh
+          server-username: MAVEN_USERNAME
+          server-password: MAVEN_PASSWORD
+      - name: Publish package
+        run: mvn -B deploy
+        env:
+          MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+          MAVEN_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
   linux_x64:
     name: Linux x64
     runs-on: ubuntu-latest
