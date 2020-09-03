@@ -9,10 +9,8 @@
 #include "leveldb/db.h"
 #include "leveldb/write_batch.h"
 
-#include "leveldb/zlib_compressor.h"
 #include "leveldb/filter_policy.h"
 #include "leveldb/cache.h"
-#include "leveldb/decompress_allocator.h"
 #include "leveldb/env.h"
 
 static leveldb::ReadOptions readOptions;
@@ -36,11 +34,8 @@ static jlong nativeOpen(JNIEnv* env, jclass clazz, jstring dbpath)
     options.block_cache = leveldb::NewLRUCache(40 * 1024 * 1024);
     options.write_buffer_size = 4 * 1024 * 1024;
     options.info_log = new NullLogger();
-    options.compressors[0] = new leveldb::ZlibCompressorRaw(-1);
-    options.compressors[1] = new leveldb::ZlibCompressor();
+    options.compression = leveldb::CompressionType::kZlibRawCompression;
     options.create_if_missing = true;
-
-    readOptions.decompress_allocator = new leveldb::DecompressAllocator();
 
     leveldb::Status status = leveldb::DB::Open(options, path, &db);
     env->ReleaseStringUTFChars(dbpath, path);
