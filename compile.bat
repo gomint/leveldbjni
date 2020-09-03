@@ -42,7 +42,7 @@ cmake -G "%CMAKE_TARGET%" -A "%ARCH%"^
  -DBUILD_SHARED_LIBS=OFF^
  -DLEVELDB_BUILD_BENCHMARKS=OFF^
  -DLEVELDB_BUILD_TESTS=OFF^
- -DZLIB_LIBRARY="%DEPS_DIR%\zlib\Release\zlib.lib"^
+ -DZLIB_LIBRARY="%DEPS_DIR%\zlib\Release\zlibstatic.lib"^
  . 2>&1 || exit 1
 call :pm-echo "Compiling"
 msbuild ALL_BUILD.vcxproj /p:Configuration=Release /m 2>&1 || exit 1

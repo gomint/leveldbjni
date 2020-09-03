@@ -7,7 +7,7 @@ set(JAVA_JVM_LIBRARY NotNeeded)
 find_package(JNI REQUIRED)
 
 find_library(ZLIB_LIBRARY
-  NAMES zlib z
+  NAMES zlibstatic z
   HINTS "${PROJECT_SOURCE_DIR}/../../../deps/zlib/Release/"
   REQUIRED
 )
