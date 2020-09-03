@@ -33,7 +33,6 @@ static jlong nativeOpen(JNIEnv* env, jclass clazz, jstring dbpath)
     options.filter_policy = leveldb::NewBloomFilterPolicy(10);
     options.block_cache = leveldb::NewLRUCache(40 * 1024 * 1024);
     options.write_buffer_size = 4 * 1024 * 1024;
-    options.info_log = new NullLogger();
     options.compression = leveldb::CompressionType::kZlibRawCompression;
     options.create_if_missing = true;
 
