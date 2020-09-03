@@ -29,16 +29,12 @@ move zlib-1.2.11 zlib
 call :pm-echo "Building zlib"
 
 cd /D zlib
-
 cmake -G "%CMAKE_TARGET%" -A "%ARCH%" || exit 1
 call :pm-echo "Compiling"
 msbuild ALL_BUILD.vcxproj /p:Configuration=Release /m 2>&1 || exit 1
-call :pm-echo "Installing files..."
-msbuild INSTALL.vcxproj /p:Configuration=Release 2>&1 || :
 cd ..
 
 cd /D leveldb
-
 call :pm-echo "Building leveldb"
 cmake -G "%CMAKE_TARGET%" -A "%ARCH%"^
  -DCMAKE_PREFIX_PATH="%DEPS_DIR%"^
@@ -50,7 +46,6 @@ cmake -G "%CMAKE_TARGET%" -A "%ARCH%"^
  . 2>&1 || exit 1
 call :pm-echo "Compiling"
 msbuild ALL_BUILD.vcxproj /p:Configuration=Release /m 2>&1 || exit 1
-
 cd ..
 
 cd /D ../src/main/c
