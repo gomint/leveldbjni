@@ -7,14 +7,14 @@ set(JAVA_JVM_LIBRARY NotNeeded)
 find_package(JNI REQUIRED)
 
 find_library(ZLIB_LIBRARY
-  NAMES zlib
+  NAMES zlib z
   HINTS "${PROJECT_SOURCE_DIR}/../../../deps/zlib/Release/"
   REQUIRED
 )
 
 find_library(LEVELDB_LIBRARY
   NAMES leveldb
-  HINTS "${PROJECT_SOURCE_DIR}/../../../deps/leveldb/Release/"
+  HINTS "${PROJECT_SOURCE_DIR}/../../../deps/leveldb/Release/" "${PROJECT_SOURCE_DIR}/../../../deps/leveldb/"
   REQUIRED
 )
 

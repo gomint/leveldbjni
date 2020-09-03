@@ -3,6 +3,17 @@ on: [push]
 name: CI
 
 jobs:
+  linux_x64:
+    name: Linux x64
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: sudo apt-get install -y zlib1g-dev
+      - run: ./compile.sh
+      - uses: actions/upload-artifact@master
+        with:
+          name: libleveldb-mcpe.so
+          path: src/main/c/libleveldb-mcpe.so
   windows_x64:
     name: Windows x64
     runs-on: windows-latest
