@@ -5,7 +5,7 @@ set VS_VER=
 set VS_YEAR=
 set CMAKE_TARGET=
 set LEVELDB_MCPE_VER=84348b9b826cc280cde659185695d2170b54824c
-set DEPS_DIR=deps
+set DEPS_DIR=%~dp0\deps
 
 where git >nul 2>nul || (call :pm-echo-error "git is required")
 where cmake >nul 2>nul || (call :pm-echo-error "cmake is required")
