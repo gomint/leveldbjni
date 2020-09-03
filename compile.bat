@@ -50,8 +50,6 @@ cmake -G "%CMAKE_TARGET%" -A "%ARCH%"^
  . 2>&1 || exit 1
 call :pm-echo "Compiling"
 msbuild ALL_BUILD.vcxproj /p:Configuration=Release /m 2>&1 || exit 1
-call :pm-echo "Installing files... (this is ok to fail)"
-msbuild INSTALL.vcxproj /p:Configuration=Release 2>&1 || exit 1
 
 cd ..
 
