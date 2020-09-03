@@ -6,14 +6,19 @@ set(JAVA_JVM_LIBRARY NotNeeded)
 
 find_package(JNI REQUIRED)
 
+find_library(ZLIB_LIBRARY
+  NAMES zlib
+  HINTS "${PROJECT_SOURCE_DIR}/../../../deps/zlib/Release/"
+  REQUIRED
+)
+
 find_library(LEVELDB_LIBRARY
   NAMES leveldb
   HINTS "${PROJECT_SOURCE_DIR}/../../../deps/leveldb/Release/"
   REQUIRED
 )
 
-set(LIBS ${LIBS} ${LEVELDB_LIBRARY})
-message("${LIBS}")
+set(LIBS ${LIBS} ${LEVELDB_LIBRARY} ${ZLIB_LIBRARY})
 
 add_library(leveldb-mcpe SHARED leveldbjni.cpp io_gomint_leveldb_DB.cpp io_gomint_leveldb_Iterator.cpp io_gomint_leveldb_WriteBatch.cpp)
 
