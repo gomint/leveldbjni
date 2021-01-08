@@ -53,10 +53,11 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: chmod +x ./compile.sh && ./compile.sh
+      - run: mv src/main/c/libleveldb-mcpe.so src/main/c/libleveldb-mcpe_arm.so
       - uses: actions/upload-artifact@master
         with:
           name: libleveldb-mcpe_arm.so
-          path: src/main/c/libleveldb-mcpe.so
+          path: src/main/c/libleveldb-mcpe_arm.so
   windows_x64:
     name: Windows x64
     runs-on: windows-latest
