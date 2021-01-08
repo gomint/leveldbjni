@@ -65,6 +65,8 @@ jobs:
       - run: choco install wget
       - name: Add msbuild to PATH
         uses: microsoft/setup-msbuild@v1.0.1
+        env:
+          ACTIONS_ALLOW_UNSECURE_COMMANDS: "true"
       - run: ./compile.bat
       - uses: actions/upload-artifact@master
         with:
