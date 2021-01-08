@@ -21,9 +21,10 @@ public class NativeLoader {
 
     private static boolean isSupported() {
         // We currently only support windows and linux x64
-        return ( SystemInfo.getCurrentPlatformEnum() == PlatformEnum.WINDOWS ||
-                SystemInfo.getCurrentPlatformEnum() == PlatformEnum.LINUX ) &&
-                "amd64".equals( System.getProperty( "os.arch" ) );
+        return (SystemInfo.getCurrentPlatformEnum() == PlatformEnum.WINDOWS ||
+                SystemInfo.getCurrentPlatformEnum() == PlatformEnum.LINUX) &&
+                ("amd64".equals(System.getProperty("os.arch")) ||
+                        "arm".equals(System.getProperty("os.arch")));
     }
 
     public static boolean load() {
@@ -32,7 +33,8 @@ public class NativeLoader {
         }
 
         String prefix = SystemInfo.getCurrentPlatformEnum() == PlatformEnum.WINDOWS ? "" : "lib";
-        String fullName = prefix + "leveldb-mcpe";
+        String arch = "arm".equals(System.getProperty("os.arch")) ? "_arm" : "";
+        String fullName = prefix + "leveldb-mcpe" + arch;
 
         // Load needed libs
         String ending = SystemInfo.getCurrentPlatformEnum() == PlatformEnum.WINDOWS ? ".dll" : ".so";
