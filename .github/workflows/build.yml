@@ -58,6 +58,17 @@ jobs:
         with:
           name: libleveldb-mcpe_arm.so
           path: src/main/c/libleveldb-mcpe_arm.so
+  mac_arm:
+    name: Mac ARM
+    runs-on: darwin-arm64
+    steps:
+      - uses: actions/checkout@v2
+      - run: arch -arm64 chmod +x ./compile.sh && arch -arm64 ./compile.sh
+      - run: mv src/main/c/libleveldb-mcpe.dylib src/main/c/libleveldb-mcpe_aarch64.dylib
+      - uses: actions/upload-artifact@master
+        with:
+          name: libleveldb-mcpe_aarch64.dylib
+          path: src/main/c/libleveldb-mcpe_aarch64.dylib
   windows_x64:
     name: Windows x64
     runs-on: windows-latest
