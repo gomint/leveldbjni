@@ -1,7 +1,7 @@
 module gomint.leveldb {
     requires io.netty.buffer;
+    requires gomint.nativeloader;
     requires oshi.core;
-    requires com.google.common;
 
     exports io.gomint.leveldb;
 }

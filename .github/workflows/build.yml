@@ -8,21 +8,26 @@ jobs:
       - windows_x64
       - linux_x64
       - linux_arm
+      - mac_arm
     name: Maven
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - uses: actions/download-artifact@master
         with:
-          name: leveldb-mcpe.dll
+          name: linux_leveldb_amd64.so
           path: src/main/resources
       - uses: actions/download-artifact@master
         with:
-          name: libleveldb-mcpe.so
+          name: linux_leveldb_arm.so
           path: src/main/resources
       - uses: actions/download-artifact@master
         with:
-          name: libleveldb-mcpe_arm.so
+          name: macosx_leveldb_aarch64.dylib
+          path: src/main/resources
+      - uses: actions/download-artifact@master
+        with:
+          name: windows_leveldb_amd64.dll
           path: src/main/resources
       - name: Set up Maven Central Repository
         uses: actions/setup-java@v1
@@ -43,32 +48,33 @@ jobs:
       - uses: actions/checkout@v2
       - run: sudo apt-get install -y zlib1g-dev
       - run: chmod +x ./compile.sh && ./compile.sh
+      - run: mv src/main/c/libleveldb-mcpe.so src/main/c/linux_leveldb_amd64.so
       - uses: actions/upload-artifact@master
         with:
-          name: libleveldb-mcpe.so
-          path: src/main/c/libleveldb-mcpe.so
+          name: linux_leveldb_amd64.so
+          path: src/main/c/linux_leveldb_amd64.so
   linux_arm:
     name: Linux ARM
     runs-on: ARM
     steps:
       - uses: actions/checkout@v2
       - run: chmod +x ./compile.sh && ./compile.sh
-      - run: mv src/main/c/libleveldb-mcpe.so src/main/c/libleveldb-mcpe_arm.so
+      - run: mv src/main/c/libleveldb-mcpe.so src/main/c/linux_leveldb_arm.so
       - uses: actions/upload-artifact@master
         with:
-          name: libleveldb-mcpe_arm.so
-          path: src/main/c/libleveldb-mcpe_arm.so
+          name: linux_leveldb_arm.so
+          path: src/main/c/linux_leveldb_arm.so
   mac_arm:
     name: Mac ARM
     runs-on: darwin-arm64
     steps:
       - uses: actions/checkout@v2
       - run: arch -arm64 chmod +x ./compile.sh && arch -arm64 ./compile.sh
-      - run: mv src/main/c/libleveldb-mcpe.dylib src/main/c/libleveldb-mcpe_aarch64.dylib
+      - run: mv src/main/c/libleveldb-mcpe.dylib src/main/c/macosx_leveldb_aarch64.dylib
       - uses: actions/upload-artifact@master
         with:
-          name: libleveldb-mcpe_aarch64.dylib
-          path: src/main/c/libleveldb-mcpe_aarch64.dylib
+          name: macosx_leveldb_aarch64.dylib
+          path: src/main/c/macosx_leveldb_aarch64.dylib
   windows_x64:
     name: Windows x64
     runs-on: windows-latest
@@ -80,7 +86,8 @@ jobs:
         env:
           ACTIONS_ALLOW_UNSECURE_COMMANDS: "true"
       - run: ./compile.bat
+      - run: mv src/main/c/Release/leveldb-mcpe.dll src/main/c/Release/windows_leveldb_amd64.dll
       - uses: actions/upload-artifact@master
         with:
-          name: leveldb-mcpe.dll
-          path: src/main/c/Release/leveldb-mcpe.dll
+          name: windows_leveldb_amd64.dll
+          path: src/main/c/Release/windows_leveldb_amd64.dll

@@ -6,7 +6,7 @@
 
     <groupId>io.gomint</groupId>
     <artifactId>leveldb-jni</artifactId>
-    <version>1.4.0-SNAPSHOT</version>
+    <version>1.5.0-SNAPSHOT</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -42,25 +42,14 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <version>29.0-jre</version>
-        </dependency>
-        <dependency>
-            <groupId>com.github.oshi</groupId>
-            <artifactId>oshi-core</artifactId>
-            <version>3.5.0</version>
+            <groupId>io.gomint</groupId>
+            <artifactId>native-loader</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty-buffer</artifactId>
             <version>4.1.50.Final</version>
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.13.1</version>
-            <scope>test</scope>
         </dependency>
     </dependencies>
 
@@ -72,40 +61,8 @@
                 <version>3.8.0</version>
                 <configuration>
                     <release>11</release>
-                    <!-- this helps when getting error: file should be on source path, or on patch path for module -->
-                    <compilerArgs>
-                        <arg>-sourcepath</arg>
-                        <arg>${project.basedir}/src/main/java${path.separator}${project.basedir}/target/generated-sources/annotations${path.separator}/</arg>
-                    </compilerArgs>
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.22.1</version>
-                <configuration>
-                    <excludes>
-                        <!-- CI might run in unprivileged container which might prevent us from performing network tests -->
-                        <exclude>**/IPv6SocketTest.java</exclude>
-                    </excludes>
-
-                    <forkCount>0</forkCount> <!-- changed this to 0 -->
-                    <reuseForks>false</reuseForks>
-                    <!-- <threadCount>1</threadCount> --> <!-- shall be used with 'parallel' -->
-                    <printSummary>true</printSummary>
-                    <!-- <skipTests>false</skipTests> --> <!-- defaults to false -->
-
-                    <!-- run test in headless mode -->
-                    <systemPropertyVariables>
-                        <glass.platform>Monocle</glass.platform>
-                        <monocle.platform>Headless</monocle.platform>
-                        <prism.order>d3d</prism.order>
-                    </systemPropertyVariables>
-
-                    <argLine>
-                        --illegal-access=permit
-                    </argLine>
+                    <target>11</target>
+                    <source>11</source>
                 </configuration>
             </plugin>
         </plugins>
