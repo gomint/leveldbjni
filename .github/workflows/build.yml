@@ -23,7 +23,7 @@ jobs:
           path: src/main/resources
       - uses: actions/download-artifact@master
         with:
-          name: macosx_leveldb_aarch64.dylib
+          name: macos_leveldb_aarch64.dylib
           path: src/main/resources
       - uses: actions/download-artifact@master
         with:
@@ -70,11 +70,11 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: arch -arm64 chmod +x ./compile.sh && arch -arm64 ./compile.sh
-      - run: mv src/main/c/libleveldb-mcpe.dylib src/main/c/macosx_leveldb_aarch64.dylib
+      - run: mv src/main/c/libleveldb-mcpe.dylib src/main/c/macos_leveldb_aarch64.dylib
       - uses: actions/upload-artifact@master
         with:
-          name: macosx_leveldb_aarch64.dylib
-          path: src/main/c/macosx_leveldb_aarch64.dylib
+          name: macos_leveldb_aarch64.dylib
+          path: src/main/c/macos_leveldb_aarch64.dylib
   windows_x64:
     name: Windows x64
     runs-on: windows-latest

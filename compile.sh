@@ -6,12 +6,11 @@ get_zip() {
   rm temp.zip || exit 1
 }
 
-ARCH=x64
 LEVELDB_MCPE_VER=84348b9b826cc280cde659185695d2170b54824c
 DEPS_DIR=$PWD/deps
 
 echo $DEPS_DIR
-rm $DEPS_DIR -rf || :
+rm -rf $DEPS_DIR
 mkdir $DEPS_DIR
 cd $DEPS_DIR
 
@@ -19,6 +18,7 @@ echo "Downloading deps..."
 
 get_zip https://github.com/pmmp/leveldb/archive/$LEVELDB_MCPE_VER.zip
 
+rm -rf leveldb
 mv leveldb-$LEVELDB_MCPE_VER leveldb
 
 cd leveldb

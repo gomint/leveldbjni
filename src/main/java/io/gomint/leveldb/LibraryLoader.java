@@ -10,7 +10,7 @@ public class LibraryLoader {
                 .supports(PlatformEnum.WINDOWS, "amd64")
                 .supports(PlatformEnum.LINUX, "amd64")
                 .supports(PlatformEnum.LINUX, "arm")
-                .supports(PlatformEnum.MACOSX, "aarch64")
+                .supports(PlatformEnum.MACOS, "aarch64")
                 .load("leveldb", LibraryLoader.class.getClassLoader());
     }
 
